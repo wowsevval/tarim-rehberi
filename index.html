@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeşil — Akıllı Tarım Rehberi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --green-50: #EAF3DE;
+    --green-100: #C0DD97;
+    --green-200: #97C459;
+    --green-400: #639922;
+    --green-600: #3B6D11;
+    --green-800: #27500A;
+    --teal-50: #E1F5EE;
+    --teal-200: #5DCAA5;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --amber-50: #FAEEDA;
+    --amber-200: #EF9F27;
+    --amber-400: #BA7517;
+    --gray-50: #F1EFE8;
+    --gray-100: #D3D1C7;
+    --gray-200: #B4B2A9;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-800: #444441;
+    --gray-900: #2C2C2A;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --nav-h: 64px;
+    --radius: 18px;
+    --radius-sm: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: #FAFAF7;
+    color: var(--gray-900);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(250,250,247,0.88);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid rgba(60,60,50,0.12);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--green-600);
+    letter-spacing: -0.5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--teal-400); }
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px; font-weight: 400;
+    color: var(--gray-600);
+    text-decoration: none;
+    letter-spacing: 0.1px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green-600); }
+  .nav-cta {
+    font-size: 13px; font-weight: 500;
+    background: var(--green-600);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--green-800); transform: scale(1.02); }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; padding-top: var(--nav-h); }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - var(--nav-h));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 24px 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--green-50) 0%, #FAFAF7 70%);
+  }
+  .hero-leaf {
+    position: absolute; opacity: 0.06; font-size: 320px; top: -40px; right: -60px;
+    transform: rotate(25deg); z-index: 0; user-select: none; line-height: 1;
+  }
+  .hero-leaf2 {
+    position: absolute; opacity: 0.04; font-size: 200px; bottom: -20px; left: -40px;
+    transform: rotate(-15deg); z-index: 0; user-select: none; line-height: 1;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 740px; }
+  .hero-badge {
+    display: inline-block;
+    font-size: 12px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--green-400); border: 1px solid var(--green-100);
+    background: var(--green-50); padding: 5px 14px; border-radius: 50px;
+    margin-bottom: 24px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 500; line-height: 1.08;
+    letter-spacing: -2px;
+    color: var(--gray-900);
+    margin-bottom: 24px;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
+  .hero h1 em { color: var(--green-400); font-style: normal; }
+  .hero-sub {
+    font-size: 18px; font-weight: 300; color: var(--gray-600);
+    max-width: 480px; margin: 0 auto 40px;
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    animation: fadeDown 0.7s 0.3s ease both;
+  }
+  .btn-primary {
+    padding: 14px 32px; border-radius: 50px;
+    background: var(--green-600); color: #fff;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block; cursor: pointer; border: none;
+  }
+  .btn-primary:hover { background: var(--green-800); transform: translateY(-1px); }
+  .btn-secondary {
+    padding: 13px 28px; border-radius: 50px;
+    border: 1.5px solid var(--gray-200); color: var(--gray-800);
+    font-size: 15px; font-weight: 400; text-decoration: none;
+    background: transparent;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block; cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--green-400); color: var(--green-600); }
+
+  /* FEATURE GRID on hero */
+  .hero-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    max-width: 900px; margin: 60px auto 0; padding: 0 24px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .hero-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 28px 24px;
+    text-align: left; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.07); }
+  .hero-card-icon { font-size: 28px; margin-bottom: 12px; line-height: 1; }
+  .hero-card h3 { font-size: 15px; font-weight: 500; color: var(--gray-900); margin-bottom: 4px; }
+  .hero-card p { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+  /* SECTION COMMONS */
+  .section {
+    max-width: 1000px; margin: 0 auto; padding: 80px 24px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--green-400); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 500; line-height: 1.15;
+    letter-spacing: -1px; color: var(--gray-900);
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 16px; font-weight: 300; color: var(--gray-600);
+    max-width: 520px; margin-bottom: 48px;
+  }
+
+  /* GUIDE PAGE — YENİ BAŞLAYANLAR */
+  .guide-steps { display: flex; flex-direction: column; gap: 2px; }
+  .guide-step {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 24px; align-items: start;
+    padding: 28px 0; border-bottom: 0.5px solid rgba(60,60,50,0.1);
+  }
+  .guide-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--green-50); border: 1.5px solid var(--green-100);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 18px; font-weight: 600;
+    color: var(--green-400); flex-shrink: 0;
+  }
+  .step-body h3 { font-size: 17px; font-weight: 500; margin-bottom: 6px; color: var(--gray-900); }
+  .step-body p { font-size: 14px; color: var(--gray-600); line-height: 1.7; }
+  .step-tip {
+    margin-top: 10px; font-size: 13px;
+    background: var(--green-50); border-left: 3px solid var(--green-200);
+    padding: 8px 12px; border-radius: 0 8px 8px 0;
+    color: var(--green-800);
+  }
+
+  /* HAVA DURUMU */
+  .weather-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 32px;
+    margin-bottom: 24px;
+  }
+  .weather-top { display: flex; align-items: center; gap: 20px; margin-bottom: 28px; }
+  .weather-icon { font-size: 56px; line-height: 1; }
+  .weather-info h2 { font-family: var(--font-display); font-size: 32px; font-weight: 500; letter-spacing: -1px; }
+  .weather-info p { font-size: 14px; color: var(--gray-400); }
+  .weather-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .w-stat {
+    background: var(--gray-50); border-radius: var(--radius-sm);
+    padding: 14px 16px; text-align: center;
+  }
+  .w-stat-label { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .w-stat-val { font-size: 20px; font-weight: 500; color: var(--gray-900); }
+  .irrigation-recs { display: flex; flex-direction: column; gap: 12px; }
+  .irr-rec {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--teal-50); border-radius: var(--radius-sm); padding: 16px;
+  }
+  .irr-rec-icon { font-size: 20px; flex-shrink: 0; line-height: 1.3; }
+  .irr-rec-text h4 { font-size: 14px; font-weight: 500; color: var(--teal-600); margin-bottom: 2px; }
+  .irr-rec-text p { font-size: 13px; color: var(--gray-600); }
+  .weather-toggle { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .wtoggle {
+    padding: 7px 18px; border-radius: 50px; border: 1.5px solid var(--gray-100);
+    background: transparent; font-size: 13px; cursor: pointer;
+    color: var(--gray-600); font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .wtoggle.active { background: var(--green-600); color: #fff; border-color: var(--green-600); }
+
+  /* BAHÇE / BALKON */
+  .space-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .space-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .space-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .space-card-header {
+    padding: 32px 28px 24px;
+    background: var(--green-50);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .space-card-icon { font-size: 36px; line-height: 1; }
+  .space-card-header h2 { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--green-800); }
+  .space-card-body { padding: 24px 28px; }
+  .space-item { padding: 12px 0; border-bottom: 0.5px solid rgba(60,60,50,0.08); }
+  .space-item:last-child { border-bottom: none; }
+  .space-item h4 { font-size: 14px; font-weight: 500; color: var(--gray-900); margin-bottom: 3px; }
+  .space-item p { font-size: 13px; color: var(--gray-600); }
+  .plant-list {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
+  }
+  .plant-tag {
+    font-size: 12px; padding: 4px 12px; border-radius: 50px;
+    background: var(--green-50); color: var(--green-600);
+    border: 1px solid var(--green-100);
+  }
+
+  /* SULAMA SİSTEMİ */
+  .system-steps {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+  .system-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 28px 24px;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .system-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .system-card-num {
+    position: absolute; top: 20px; right: 24px;
+    font-family: var(--font-display); font-size: 40px; font-weight: 600;
+    color: var(--gray-50); line-height: 1;
+  }
+  .system-card-icon { font-size: 26px; margin-bottom: 14px; line-height: 1; }
+  .system-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 8px; color: var(--gray-900); }
+  .system-card p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+  .system-card .tag {
+    margin-top: 12px; display: inline-block; font-size: 11px;
+    padding: 3px 10px; border-radius: 50px;
+    background: var(--teal-50); color: var(--teal-600); font-weight: 500;
+  }
+  .components-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+  .component-card {
+    padding: 16px; background: var(--gray-50); border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  .component-card-icon { font-size: 24px; margin-bottom: 8px; line-height: 1; }
+  .component-card h4 { font-size: 13px; font-weight: 500; color: var(--gray-800); margin-bottom: 3px; }
+  .component-card p { font-size: 12px; color: var(--gray-400); }
+
+  /* ÇEVRECİ TAVSİYELER */
+  .eco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .eco-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 28px 22px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .eco-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .eco-card-icon { font-size: 30px; margin-bottom: 14px; line-height: 1; }
+  .eco-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--gray-900); }
+  .eco-card p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+  .eco-banner {
+    background: linear-gradient(135deg, var(--green-600) 0%, var(--teal-600) 100%);
+    border-radius: var(--radius); padding: 40px 48px;
+    color: #fff; margin-top: 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .eco-banner h3 { font-family: var(--font-display); font-size: 26px; font-weight: 500; margin-bottom: 8px; }
+  .eco-banner p { font-size: 14px; opacity: 0.85; max-width: 400px; }
+  .eco-banner-btn {
+    padding: 12px 28px; border-radius: 50px;
+    background: rgba(255,255,255,0.2); color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    font-size: 14px; cursor: pointer; font-family: var(--font-body);
+    white-space: nowrap; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .eco-banner-btn:hover { background: rgba(255,255,255,0.3); }
+
+  /* GÜBRELEME */
+  .fertilizer-tabs { display: flex; gap: 6px; margin-bottom: 32px; }
+  .ftab {
+    padding: 8px 20px; border-radius: 50px;
+    border: 1.5px solid var(--gray-100); background: transparent;
+    font-size: 13px; cursor: pointer; font-family: var(--font-body);
+    color: var(--gray-600); transition: all 0.2s;
+  }
+  .ftab.active { background: var(--green-600); color: #fff; border-color: var(--green-600); }
+  .fertilizer-content { display: none; }
+  .fertilizer-content.active { display: block; }
+  .fert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .fert-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 24px 20px;
+    transition: transform 0.2s;
+  }
+  .fert-card:hover { transform: translateY(-2px); }
+  .fert-icon { font-size: 28px; margin-bottom: 12px; line-height: 1; }
+  .fert-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .fert-card p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+  .npk-bar { display: flex; gap: 4px; margin-top: 12px; align-items: center; }
+  .npk-pill {
+    font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 50px;
+  }
+  .npk-n { background: var(--green-50); color: var(--green-600); }
+  .npk-p { background: var(--amber-50); color: var(--amber-400); }
+  .npk-k { background: var(--teal-50); color: var(--teal-600); }
+  .schedule-table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  .schedule-table th {
+    background: var(--gray-50); padding: 10px 14px;
+    text-align: left; font-weight: 500; font-size: 12px;
+    color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.6px;
+    border-bottom: 0.5px solid var(--gray-100);
+  }
+  .schedule-table td {
+    padding: 12px 14px; border-bottom: 0.5px solid rgba(60,60,50,0.07);
+    color: var(--gray-800);
+  }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .period-badge {
+    display: inline-block; font-size: 11px; padding: 3px 10px;
+    border-radius: 50px; font-weight: 500;
+  }
+  .period-spring { background: var(--green-50); color: var(--green-600); }
+  .period-summer { background: var(--amber-50); color: var(--amber-400); }
+  .period-autumn { background: #FFF3E8; color: #C05010; }
+  .period-winter { background: #EEF3FB; color: #2E5FA3; }
+
+  /* HABERLER */
+  .news-featured {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); padding: 40px 40px;
+    margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    align-items: center; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .news-featured:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+  .news-featured-badge {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    background: var(--green-50); color: var(--green-600);
+    border: 1px solid var(--green-100); padding: 4px 12px; border-radius: 50px;
+    margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .news-featured h2 {
+    font-family: var(--font-display); font-size: 26px; font-weight: 500;
+    line-height: 1.25; letter-spacing: -0.5px; color: var(--gray-900);
+    margin-bottom: 12px;
+  }
+  .news-featured p { font-size: 14px; color: var(--gray-600); line-height: 1.7; }
+  .news-featured-meta { margin-top: 16px; font-size: 12px; color: var(--gray-400); }
+  .news-img {
+    aspect-ratio: 4/3; border-radius: 12px;
+    background: var(--green-50);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px; line-height: 1;
+  }
+  .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .news-card {
+    background: #fff; border: 0.5px solid rgba(60,60,50,0.1);
+    border-radius: var(--radius); overflow: hidden;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .news-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .news-card-img {
+    padding: 28px; background: var(--gray-50);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; line-height: 1; aspect-ratio: 16/9;
+  }
+  .news-card-body { padding: 20px; }
+  .news-cat { font-size: 11px; font-weight: 500; color: var(--green-400); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .news-card h3 { font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--gray-900); margin-bottom: 8px; }
+  .news-card p { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+  .news-date { margin-top: 10px; font-size: 12px; color: var(--gray-400); }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid rgba(60,60,50,0.12);
+    padding: 40px 48px; text-align: center;
+    color: var(--gray-400); font-size: 13px;
+  }
+  footer strong { color: var(--green-400); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* PAGE TRANSITION */
+  .page { animation: fadeUp 0.4s ease; }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .space-cards, .system-steps { grid-template-columns: 1fr; }
+    .eco-grid, .fert-grid { grid-template-columns: 1fr 1fr; }
+    .news-grid { grid-template-columns: 1fr; }
+    .news-featured { grid-template-columns: 1fr; }
+    .weather-stats { grid-template-columns: repeat(2, 1fr); }
+    .eco-banner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home')">Yeşil<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('guide')">Rehber</a></li>
+    <li><a href="#" onclick="showPage('weather')">Sulama</a></li>
+    <li><a href="#" onclick="showPage('spaces')">Alan Önerileri</a></li>
+    <li><a href="#" onclick="showPage('irrigation')">Akıllı Sistem</a></li>
+    <li><a href="#" onclick="showPage('eco')">Çevre</a></li>
+    <li><a href="#" onclick="showPage('fertilizer')">Gübreleme</a></li>
+    <li><a href="#" onclick="showPage('news')">Haberler</a></li>
+  </ul>
+  <a class="nav-cta" href="#" onclick="showPage('guide')">Başla</a>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-leaf">🌿</div>
+    <div class="hero-leaf2">🌱</div>
+    <div class="hero-content">
+      <span class="hero-badge">🌱 Akıllı Tarım Rehberi</span>
+      <h1>Tohumdan <em>hasata</em>,<br>her adımda yanınızdayız.</h1>
+      <p class="hero-sub">Balkonunuzda, bahçenizde ya da tarlada — sürdürülebilir ve verimli bir büyüme için bilmeniz gereken her şey.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#" onclick="showPage('guide')">Rehbere Başla</a>
+        <a class="btn-secondary" href="#" onclick="showPage('news')">Güncel Haberler</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-card" onclick="showPage('guide')">
+      <div class="hero-card-icon">📚</div>
+      <h3>Yeni Başlayanlar Rehberi</h3>
+      <p>Adım adım bitki yetiştirme, toprak hazırlığı ve ilk hasat.</p>
+    </div>
+    <div class="hero-card" onclick="showPage('weather')">
+      <div class="hero-card-icon">🌤</div>
+      <h3>Hava Durumuna Göre Sulama</h3>
+      <p>Anlık hava koşullarına uygun sulama tavsiyeleri.</p>
+    </div>
+    <div class="hero-card" onclick="showPage('spaces')">
+      <div class="hero-card-icon">🏡</div>
+      <h3>Balkon & Bahçe Önerileri</h3>
+      <p>Alanınıza özel bitki seçimi ve düzenleme fikirleri.</p>
+    </div>
+    <div class="hero-card" onclick="showPage('irrigation')">
+      <div class="hero-card-icon">💧</div>
+      <h3>Akıllı Sulama Sistemi</h3>
+      <p>Drip, sprinkler ve zamanlayıcılı sistemlerin kurulum rehberi.</p>
+    </div>
+    <div class="hero-card" onclick="showPage('eco')">
+      <div class="hero-card-icon">♻️</div>
+      <h3>Çevreci Tavsiyeler</h3>
+      <p>Sürdürülebilir tarım ve doğa dostu uygulamalar.</p>
+    </div>
+    <div class="hero-card" onclick="showPage('fertilizer')">
+      <div class="hero-card-icon">🌾</div>
+      <h3>Gübreleme Rehberi</h3>
+      <p>Doğru gübre seçimi, zamanlama ve uygulama teknikleri.</p>
+    </div>
+  </div>
+
+  <div style="height: 80px;"></div>
+  <footer>
+    <strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.
+  </footer>
+</div>
+
+<!-- GUIDE PAGE -->
+<div id="page-guide" class="page">
+  <div class="section">
+    <div class="section-label">Yeni Başlayanlar</div>
+    <h1 class="section-title">Sıfırdan bitki yetiştirme<br>rehberi</h1>
+    <p class="section-sub">İlk tohumunuzu atmadan önce bilmeniz gereken temel adımları keşfedin.</p>
+
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Doğru bitkiyi seçin</h3>
+          <p>Bulunduğunuz coğrafyaya, iklime ve alanınıza uygun bitki seçimi başarının yarısıdır. Türkiye'de Akdeniz iklimine uyumlu domates, biber, patlıcan; karasal iklimlerde ise soğan, sarımsak ve patates idealdir.</p>
+          <div class="step-tip">💡 İlk deneyiminiz için fesleğen, nane veya maydanoz gibi hızlı büyüyen otları tercih edin.</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Toprağı hazırlayın</h3>
+          <p>İyi bir bitki büyümesi için uygun pH değeri (6.0–7.0 arası), iyi drenaj ve organik madde içeriği yüksek toprak şarttır. Humus oranını artırmak için kompost veya yanmış gübre karıştırın.</p>
+          <div class="step-tip">💡 Toprak testi kitleriyle pH ve besin değerlerini ölçebilirsiniz. Tohumlama öncesi toprak sıcaklığının en az 10°C olmasına dikkat edin.</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Ekim zamanlamasını doğru ayarlayın</h3>
+          <p>Her bitkinin ideal ekim sezonu vardır. İlkbahar sebzeleri Mart–Nisan, yaz sebzeleri Mayıs–Haziran aylarında ekilir. Son don tarihini bölgenize göre araştırın.</p>
+          <div class="step-tip">💡 Tohum paketleri üzerindeki ekim takvimini mutlaka inceleyin.</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Sulama düzenini oluşturun</h3>
+          <p>Fazla sulama kök çürümesine, az sulama ise kurumaya yol açar. Çoğu sebze için toprak 2–3 cm derinlikte kuru hissedildiğinde sulama yapılmalıdır. Sabah sulamak evaporasyonu azaltır.</p>
+          <div class="step-tip">💡 Parmak testi: Toprağa parmağınızı 2. eklem hizasına kadar sokun. Kuru hissediyorsa sulama zamanı gelmiştir.</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Güneş ve ışık ihtiyacını planlayın</h3>
+          <p>Meyve veren sebzeler (domates, biber, kabak) günde 6–8 saat doğrudan güneş ışığı ister. Yapraklı sebzeler (marul, ıspanak) kısmi gölgeyle yetinir. Bitkilerinizi konumlandırmadan önce güneş haritasını çıkarın.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>Zararlı yönetimi</h3>
+          <p>Erken tespit kritiktir. Yaprakları düzenli inceleyin. Uğurböceği gibi faydalı böcekleri destekleyin. Kimyasal ilaç kullanmadan önce neem yağı, sarımsak spreyi ve biyolojik yöntemleri deneyin.</p>
+          <div class="step-tip">💡 Karışık ekim (companion planting) birçok zararlıyı doğal yollarla engeller.</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h3>Hasat ve depolama</h3>
+          <p>Doğru hasat zamanı hem lezzet hem de raf ömrü için kritiktir. Sebzelerin çoğu sabah erken saatlerde hasat edilmeli, serin ve karanlık ortamda saklanmalıdır.</p>
+          <div class="step-tip">💡 Düzenli hasat yapılması bitkinin daha fazla ürün vermesini teşvik eder.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- WEATHER PAGE -->
+<div id="page-weather" class="page">
+  <div class="section">
+    <div class="section-label">Hava Durumu & Sulama</div>
+    <h1 class="section-title">Hava koşullarına göre<br>sulama önerileri</h1>
+    <p class="section-sub">Anlık ve mevsimsel hava verilerine göre bitkileriniz için en uygun sulama programını oluşturun.</p>
+
+    <div class="weather-toggle">
+      <button class="wtoggle active" onclick="setWeather(this,'sunny')">☀️ Güneşli</button>
+      <button class="wtoggle" onclick="setWeather(this,'cloudy')">⛅ Bulutlu</button>
+      <button class="wtoggle" onclick="setWeather(this,'rainy')">🌧 Yağmurlu</button>
+      <button class="wtoggle" onclick="setWeather(this,'windy')">💨 Rüzgarlı</button>
+      <button class="wtoggle" onclick="setWeather(this,'hot')">🌡 Sıcak Dalga</button>
+    </div>
+
+    <div class="weather-card" id="weather-display">
+      <div class="weather-top">
+        <div class="weather-icon" id="w-icon">☀️</div>
+        <div class="weather-info">
+          <h2 id="w-title">Güneşli Gün</h2>
+          <p id="w-sub">Sıcak ve kurak hava koşulları • Yüksek buharlaşma</p>
+        </div>
+      </div>
+      <div class="weather-stats">
+        <div class="w-stat">
+          <div class="w-stat-label">Sıcaklık</div>
+          <div class="w-stat-val" id="w-temp">28°C</div>
+        </div>
+        <div class="w-stat">
+          <div class="w-stat-label">Nem</div>
+          <div class="w-stat-val" id="w-hum">35%</div>
+        </div>
+        <div class="w-stat">
+          <div class="w-stat-label">Buharlaşma</div>
+          <div class="w-stat-val" id="w-evap">Yüksek</div>
+        </div>
+        <div class="w-stat">
+          <div class="w-stat-label">Sulama</div>
+          <div class="w-stat-val" id="w-irr">Gerekli</div>
+        </div>
+      </div>
+      <div class="irrigation-recs" id="w-recs">
+        <div class="irr-rec">
+          <div class="irr-rec-icon">💧</div>
+          <div class="irr-rec-text">
+            <h4>Sabah erken sulayın</h4>
+            <p>Saat 06:00–09:00 arasında yapılan sulama buharlaşmayı en aza indirir. Öğle vakti sulama yapmaktan kaçının.</p>
+          </div>
+        </div>
+        <div class="irr-rec">
+          <div class="irr-rec-icon">🌱</div>
+          <div class="irr-rec-text">
+            <h4>Sebzeleri günde 1–2 kez sulayın</h4>
+            <p>30°C üzerinde toprak çok çabuk kurur. Domates ve biber gibi meyve sebzelere ekstra dikkat edin.</p>
+          </div>
+        </div>
+        <div class="irr-rec">
+          <div class="irr-rec-icon">🌾</div>
+          <div class="irr-rec-text">
+            <h4>Malçlama yapın</h4>
+            <p>Toprak yüzeyine 5–8 cm saman veya ahşap talaşı sermek nem tutmayı %40'a kadar artırır.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="weather-card">
+      <h3 style="font-size:17px; font-weight:500; margin-bottom:20px; color:var(--gray-900);">🗓 Mevsimlik Sulama Takvimi</h3>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+        <div style="padding:16px; background:var(--green-50); border-radius:var(--radius-sm);">
+          <div style="font-size:13px; font-weight:500; color:var(--green-600); margin-bottom:6px;">🌸 İlkbahar</div>
+          <p style="font-size:12px; color:var(--gray-600);">Haftada 2–3 kez, toprak ısınınca başlayın. Yağmur sonrası sulama yapmayın.</p>
+        </div>
+        <div style="padding:16px; background:var(--amber-50); border-radius:var(--radius-sm);">
+          <div style="font-size:13px; font-weight:500; color:var(--amber-400); margin-bottom:6px;">☀️ Yaz</div>
+          <p style="font-size:12px; color:var(--gray-600);">Günde 1–2 kez. Damlama sulama tercih edin. Sabah erken saatler ideal.</p>
+        </div>
+        <div style="padding:16px; background:#FFF3E8; border-radius:var(--radius-sm);">
+          <div style="font-size:13px; font-weight:500; color:#C05010; margin-bottom:6px;">🍂 Sonbahar</div>
+          <p style="font-size:12px; color:var(--gray-600);">Haftada 1–2 kez. Hava serinledikçe sıklığı azaltın. Gece sulamaktan kaçının.</p>
+        </div>
+        <div style="padding:16px; background:#EEF3FB; border-radius:var(--radius-sm);">
+          <div style="font-size:13px; font-weight:500; color:#2E5FA3; margin-bottom:6px;">❄️ Kış</div>
+          <p style="font-size:12px; color:var(--gray-600);">Çoğu bitki dormant. Saksı bitkiler için ayda 2–4 kez yeterli.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- SPACES PAGE -->
+<div id="page-spaces" class="page">
+  <div class="section">
+    <div class="section-label">Alan Önerileri</div>
+    <h1 class="section-title">Balkonunuza mı yoksa<br>bahçenize mi?</h1>
+    <p class="section-sub">Her alan farklı potansiyele sahiptir. Alanınıza özel bitki seçimi ve düzenleme önerileri keşfedin.</p>
+
+    <div class="space-cards">
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-card-icon">🏢</div>
+          <div>
+            <h2>Balkon</h2>
+            <p style="font-size:13px; color:var(--green-600);">5–20 m² alan</p>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="space-item">
+            <h4>Saksı seçimi</h4>
+            <p>Derin kökler için en az 30 cm derinlikte saksı seçin. Domates, biber için 10–15 litre kapasiteli kaplar idealdir.</p>
+          </div>
+          <div class="space-item">
+            <h4>Dikey bahçe kurma</h4>
+            <p>Duvar panelleri ve askı sepetleriyle alanı çoğaltın. Çilek, nane, fesleğen dikey sistemlere mükemmel uyum sağlar.</p>
+          </div>
+          <div class="space-item">
+            <h4>Güneş hesabı</h4>
+            <p>Güney veya batıya bakan balkonlar günde 5+ saat güneş alır. Kuzey balkonu için gölge seven bitkileri seçin.</p>
+          </div>
+          <div class="plant-list">
+            <span class="plant-tag">🍅 Kiraz domates</span>
+            <span class="plant-tag">🌿 Fesleğen</span>
+            <span class="plant-tag">🫑 Sivri biber</span>
+            <span class="plant-tag">🍓 Çilek</span>
+            <span class="plant-tag">🪴 Nane</span>
+            <span class="plant-tag">🥬 Marul</span>
+            <span class="plant-tag">🌸 Sardunya</span>
+            <span class="plant-tag">🫚 Zeytinağacı</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-card-icon">🏡</div>
+          <div>
+            <h2>Bahçe</h2>
+            <p style="font-size:13px; color:var(--green-600);">20 m² ve üzeri alan</p>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="space-item">
+            <h4>Yükseltilmiş tarhlar</h4>
+            <p>Ahşap veya beton çerçeveli yüksek tarhlar drenajı iyileştirir, eğilerek çalışmayı kolaylaştırır ve zararlıları azaltır.</p>
+          </div>
+          <div class="space-item">
+            <h4>Rotasyon planlaması</h4>
+            <p>Aynı aileye ait bitkileri her yıl farklı bölgeye taşıyın. Bu yöntem torak yorgunluğunu ve hastalıkları önler.</p>
+          </div>
+          <div class="space-item">
+            <h4>Yoldaş bitki sistemi</h4>
+            <p>Domates + fesleğen, havuç + soğan, fasulye + mısır gibi kombinasyonlar birbirinin büyümesini destekler.</p>
+          </div>
+          <div class="plant-list">
+            <span class="plant-tag">🍆 Patlıcan</span>
+            <span class="plant-tag">🥒 Salatalık</span>
+            <span class="plant-tag">🎃 Kabak</span>
+            <span class="plant-tag">🌽 Mısır</span>
+            <span class="plant-tag">🫘 Fasulye</span>
+            <span class="plant-tag">🥕 Havuç</span>
+            <span class="plant-tag">🧅 Soğan</span>
+            <span class="plant-tag">🌿 Tarhun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; background:#fff; border:0.5px solid rgba(60,60,50,0.1); border-radius:var(--radius); padding:32px 28px;">
+      <h3 style="font-family:var(--font-display); font-size:20px; font-weight:500; margin-bottom:20px; color:var(--gray-900);">🌍 Özel Alan Türleri</h3>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+        <div style="padding:18px; background:var(--gray-50); border-radius:var(--radius-sm);">
+          <div style="font-size:22px; margin-bottom:8px;">🏙</div>
+          <h4 style="font-size:14px; font-weight:500; margin-bottom:6px;">Kentsel Çatı</h4>
+          <p style="font-size:12px; color:var(--gray-600);">Hafif substrat ve hidroponik sistemlerle çatı bahçesi kurun. Rüzgar bariyerine dikkat edin.</p>
+        </div>
+        <div style="padding:18px; background:var(--gray-50); border-radius:var(--radius-sm);">
+          <div style="font-size:22px; margin-bottom:8px;">🌡</div>
+          <h4 style="font-size:14px; font-weight:500; margin-bottom:6px;">Sera / Cam Ev</h4>
+          <p style="font-size:12px; color:var(--gray-600);">Yıl boyu üretim yapın. Havalandırma ve gölgeleme sistemi ihmal etmeyin.</p>
+        </div>
+        <div style="padding:18px; background:var(--gray-50); border-radius:var(--radius-sm);">
+          <div style="font-size:22px; margin-bottom:8px;">🏘</div>
+          <h4 style="font-size:14px; font-weight:500; margin-bottom:6px;">Topluluk Bahçesi</h4>
+          <p style="font-size:12px; color:var(--gray-600);">Komşularla ortak alan oluşturun. Her aile için 10–15 m² parsel ideal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- IRRIGATION PAGE -->
+<div id="page-irrigation" class="page">
+  <div class="section">
+    <div class="section-label">Akıllı Sulama</div>
+    <h1 class="section-title">Sulama sistemini<br>kendiniz kurun</h1>
+    <p class="section-sub">Damlama sulamadan otomatik sprinkler'a kadar tüm sistemlerin kurulum rehberi.</p>
+
+    <div class="system-steps">
+      <div class="system-card">
+        <div class="system-card-num">01</div>
+        <div class="system-card-icon">📐</div>
+        <h3>Alan ve ihtiyaç analizi</h3>
+        <p>Bahçenizin haritasını çıkarın. Bitki türlerine göre sulama ihtiyaçlarını gruplandırın. Aynı bölgede farklı su ihtiyacı olan bitkiler olmamalı.</p>
+        <span class="tag">Planlama</span>
+      </div>
+      <div class="system-card">
+        <div class="system-card-num">02</div>
+        <div class="system-card-icon">💧</div>
+        <h3>Sistem türü seçin</h3>
+        <p>Damlama (drip): Sebze tarhları için ideal, su tasarrufu yüksek. Sprinkler: Çim alanlar için. Soaker hortum: Sıralı bitkiler için.</p>
+        <span class="tag">Seçim</span>
+      </div>
+      <div class="system-card">
+        <div class="system-card-num">03</div>
+        <div class="system-card-icon">🔧</div>
+        <h3>Ana hattı döşeyin</h3>
+        <p>Su kaynağından çıkan ana hattı (16–20 mm boru) bahçe boyunca döşeyin. Filtre ve basınç düzenleyici takın. Maksimum 50 PSI basınç önerilir.</p>
+        <span class="tag">Kurulum</span>
+      </div>
+      <div class="system-card">
+        <div class="system-card-num">04</div>
+        <div class="system-card-icon">⚙️</div>
+        <h3>Damlatıcıları bağlayın</h3>
+        <p>Ana hattan 4–8 mm çaplı lateral borular çıkarın. Damlatıcıları (emitter) bitkinin kök bölgesine konumlandırın. 2–4 L/saat akış hızı sebzeler için idealdir.</p>
+        <span class="tag">Montaj</span>
+      </div>
+      <div class="system-card">
+        <div class="system-card-num">05</div>
+        <div class="system-card-icon">🕐</div>
+        <h3>Zamanlayıcı programlayın</h3>
+        <p>Dijital sulama zamanlayıcısı ile günlük veya haftalık programlar oluşturun. Yağmur sensörü ekleyerek otomatik iptal özelliği kazandırın.</p>
+        <span class="tag">Otomasyon</span>
+      </div>
+      <div class="system-card">
+        <div class="system-card-num">06</div>
+        <div class="system-card-icon">📱</div>
+        <h3>Akıllı kontrol ekleyin</h3>
+        <p>WiFi'lı sulama kontrol sistemleri (Rachio, Hunter) hava durumu verisini kullanarak sulama programını otomatik ayarlar. Toprak nem sensörleri de eklenebilir.</p>
+        <span class="tag">IoT</span>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <h3 style="font-family:var(--font-display); font-size:20px; font-weight:500; margin-bottom:20px; color:var(--gray-900);">🛒 Gerekli Bileşenler</h3>
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-card-icon">🚰</div>
+          <h4>Filtre</h4>
+          <p>Damlatıcıları korur, 120 mesh minimum</p>
+        </div>
+        <div class="component-card">
+          <div class="component-card-icon">📊</div>
+          <h4>Basınç Regülatörü</h4>
+          <p>10–30 PSI aralığına düşürür</p>
+        </div>
+        <div class="component-card">
+          <div class="component-card-icon">🔩</div>
+          <h4>Ana Boru</h4>
+          <p>16–20mm PE boru, esnek</p>
+        </div>
+        <div class="component-card">
+          <div class="component-card-icon">💦</div>
+          <h4>Damlatıcılar</h4>
+          <p>2L, 4L veya 8L/saat kapasiteli</p>
+        </div>
+        <div class="component-card">
+          <div class="component-card-icon">⏰</div>
+          <h4>Zamanlayıcı</h4>
+          <p>Dijital, çok programlı</p>
+        </div>
+        <div class="component-card">
+          <div class="component-card-icon">🌡</div>
+          <h4>Nem Sensörü</h4>
+          <p>Toprak nemi ölçer, aşırı sulamayı engeller</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- ECO PAGE -->
+<div id="page-eco" class="page">
+  <div class="section">
+    <div class="section-label">Sürdürülebilirlik</div>
+    <h1 class="section-title">Doğayla uyumlu<br>tarım pratiği</h1>
+    <p class="section-sub">Kimyasalı azaltın, biyoçeşitliliği artırın ve gezegenimizi koruyun.</p>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="eco-card-icon">🪣</div>
+        <h3>Yağmur Suyu Hasadı</h3>
+        <p>Çatı sisteminden yönlendirilen yağmur suyu, biriktirilip bahçe sulamasında kullanılabilir. 1000 litre kapasiteli tanklar en pratik çözümdür. Yılda ortalama %40 su tasarrufu sağlar.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-icon">♻️</div>
+        <h3>Kompost Yapımı</h3>
+        <p>Mutfak artıkları ve bahçe atıklarından 8–12 haftada zengin kompost üretin. Azot:karbon oranı 1:30 olmalıdır. Hazır kompost, kimyasal gübreye mükemmel bir alternatiftir.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-icon">🐛</div>
+        <h3>Biyolojik Zararlı Kontrolü</h3>
+        <p>Uğurböceği, pirzolakuşu ve sarı yapışkan tuzaklar kimyasal ilaç kullanımını minimize eder. Neem yağı ve sarımsak spreyi en yaygın organik pestisitlerdir.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-icon">🌻</div>
+        <h3>Arı Dostu Bahçe</h3>
+        <p>Lavanta, papatya ve adaçayı gibi çiçekleri bahçenize ekleyin. Tozlayıcı popülasyonunu artırmak meyve ve sebze verimliliğini %30'a kadar yükseltir.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-icon">🌱</div>
+        <h3>Yeşil Gübre</h3>
+        <p>Yonca, fiğ ve çavdar gibi kapak bitkileri ekilerek toprak yorgunluğu giderilir. Bu bitkiler topraktaki azotu artırır, erozyonu önler ve organik madde sağlar.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-card-icon">🌾</div>
+        <h3>Saman Malçlama</h3>
+        <p>Toprak yüzeyine saman, ahşap talaşı veya yaprak katmanı serilmesi nem tutmayı artırır, yabani otları baskılar ve toprak sıcaklığını dengeler.</p>
+      </div>
+    </div>
+
+    <div class="eco-banner">
+      <div>
+        <h3>🌍 Karbon ayak izinizi azaltın</h3>
+        <p>Yerel tohumlar kullanın, paketli gübre yerine kompost tercih edin ve mevsimlik üretim yapın. Bu basit adımlar bahçenizin karbon dengesini pozitife çevirir.</p>
+      </div>
+      <button class="eco-banner-btn" onclick="showPage('guide')">Rehberi İncele →</button>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- FERTILIZER PAGE -->
+<div id="page-fertilizer" class="page">
+  <div class="section">
+    <div class="section-label">Gübreleme</div>
+    <h1 class="section-title">Doğru gübre,<br>doğru zamanda</h1>
+    <p class="section-sub">Toprak tipine, bitki türüne ve mevsime göre gübre seçimi ve uygulama rehberi.</p>
+
+    <div class="fertilizer-tabs">
+      <button class="ftab active" onclick="switchTab(this,'organic')">🌿 Organik</button>
+      <button class="ftab" onclick="switchTab(this,'inorganic')">⚗️ Kimyasal</button>
+      <button class="ftab" onclick="switchTab(this,'schedule')">📅 Takvim</button>
+    </div>
+
+    <div class="fertilizer-content active" id="tab-organic">
+      <div class="fert-grid">
+        <div class="fert-card">
+          <div class="fert-icon">🐄</div>
+          <h3>Yanmış Ahır Gübresi</h3>
+          <p>En geleneksel organik gübre. Azot, fosfor ve potasyum içerir. En az 6 ay bekletilmiş olmalıdır. İlkbaharda ekim öncesi toprağa karıştırın.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">N</span><span class="npk-pill npk-p">P</span><span class="npk-pill npk-k">K</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🍂</div>
+          <h3>Kompost</h3>
+          <p>Mutfak ve bahçe atıklarından elde edilen zengin organik madde. Toprağın yapısını iyileştirir, pH'ı dengeler, faydalı mikroorganizmaları destekler.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">N</span><span class="npk-pill npk-p">P</span><span class="npk-pill npk-k">K</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🐟</div>
+          <h3>Balık Emülsiyonu</h3>
+          <p>Yüksek azot içeriği nedeniyle büyüme döneminde etkilidir. Suda seyreltilerek uygulanan bu gübre hızlı sonuç verir. Koku yoğun olabilir.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">N ↑↑</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🦇</div>
+          <h3>Yarasa Gübresi (Guano)</h3>
+          <p>Yüksek fosfor içeriği ile özellikle çiçeklenme ve meyve tutma döneminde etkilidir. Saksı bitkileri için ideal mikro dozlarda kullanılır.</p>
+          <div class="npk-bar"><span class="npk-pill npk-p">P ↑↑</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🌊</div>
+          <h3>Deniz Yosunu Özü</h3>
+          <p>Mikro besinler, büyüme hormonları ve enzimler içerir. Stres koşullarında bitki direncini artırır. Yapraktan veya topraktan uygulanabilir.</p>
+          <div class="npk-bar"><span class="npk-pill npk-k">K + Mikro</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🌿</div>
+          <h3>Solucan Gübresi (Vermikompost)</h3>
+          <p>En kaliteli organik gübre olarak kabul edilir. Besin içeriği zengin, pH nötr ve hastalık baskılayıcı özelliklere sahiptir. Her türlü bitkide güvenle kullanılır.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">N</span><span class="npk-pill npk-p">P</span><span class="npk-pill npk-k">K</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fertilizer-content" id="tab-inorganic">
+      <div class="fert-grid">
+        <div class="fert-card">
+          <div class="fert-icon">⚗️</div>
+          <h3>Amonyum Nitrat (%33 N)</h3>
+          <p>Hızlı etkili azot kaynağı. Büyüme döneminin başında, yaprak gelişimi için idealdir. Yağmur öncesi uygulamak kayıpları azaltır.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">33-0-0</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🔵</div>
+          <h3>Süperfosfat</h3>
+          <p>Kök gelişimi ve çiçeklenmeyi destekler. Asidik topraklarda fosfor alımını kolaylaştırır. Ekim ile birlikte toprağa karıştırın.</p>
+          <div class="npk-bar"><span class="npk-pill npk-p">0-46-0</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🟤</div>
+          <h3>Potasyum Klorür</h3>
+          <p>Meyve kalitesi, hastalık direnci ve kış dayanıklılığı için kritik. Sonbahar uygulaması bölgenin kış soğuklarına karşı bitkiyi hazırlar.</p>
+          <div class="npk-bar"><span class="npk-pill npk-k">0-0-60</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🟢</div>
+          <h3>NPK 15-15-15</h3>
+          <p>Dengeli genel amaçlı gübre. Başlangıç dozu olarak tüm bitkilere uygulanabilir. Ekim öncesi veya sezon başında tercih edilir.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">15</span><span class="npk-pill npk-p">15</span><span class="npk-pill npk-k">15</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🟡</div>
+          <h3>Kalsiyum Nitrat</h3>
+          <p>Domates ve biberde çiçek dip çürümesini önler. Kalsiyum eksikliğini giderir. Sulama suyuyla birlikte uygulanabilir.</p>
+          <div class="npk-bar"><span class="npk-pill npk-n">15.5-0-0 + Ca</span></div>
+        </div>
+        <div class="fert-card">
+          <div class="fert-icon">🟠</div>
+          <h3>Yapraktan Gübre (Foliar)</h3>
+          <p>Hızlı besin takviyesi gerektiğinde yapraklara püskürtülür. Mikro element eksikliklerini anında giderir. Sabah erken saatlerde uygulayın.</p>
+          <div class="npk-bar"><span class="npk-pill npk-k">Mikro Element</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fertilizer-content" id="tab-schedule">
+      <div style="background:#fff; border:0.5px solid rgba(60,60,50,0.1); border-radius:var(--radius); overflow:hidden;">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Dönem</th>
+              <th>Bitki Türü</th>
+              <th>Önerilen Gübre</th>
+              <th>Sıklık</th>
+              <th>Miktar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="period-badge period-spring">İlkbahar</span></td><td>Sebzeler</td><td>Kompost + NPK 15-15-15</td><td>Ekim öncesi 1 kez</td><td>2–3 kg/m²</td></tr>
+            <tr><td><span class="period-badge period-spring">İlkbahar</span></td><td>Meyve ağaçları</td><td>Azotlu gübre</td><td>Tomurcuk öncesi</td><td>150g/ağaç</td></tr>
+            <tr><td><span class="period-badge period-summer">Yaz</span></td><td>Domates, biber</td><td>Kalsiyum nitrat + K</td><td>2 haftada bir</td><td>5g/litre sulama</td></tr>
+            <tr><td><span class="period-badge period-summer">Yaz</span></td><td>Yapraklılar</td><td>Azotlu foliar</td><td>Haftada bir</td><td>Etiket dozu</td></tr>
+            <tr><td><span class="period-badge period-autumn">Sonbahar</span></td><td>Tüm bitkiler</td><td>Potasyumlu gübre</td><td>Yılda 1 kez</td><td>30g/m²</td></tr>
+            <tr><td><span class="period-badge period-autumn">Sonbahar</span></td><td>Çim alanları</td><td>NPK 5-10-30</td><td>Kış öncesi</td><td>25g/m²</td></tr>
+            <tr><td><span class="period-badge period-winter">Kış</span></td><td>Saksı bitkileri</td><td>Yavaş salınımlı granül</td><td>Ayda 1 kez</td><td>Yarım doz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px; padding:16px; background:var(--amber-50); border-radius:var(--radius-sm); font-size:13px; color:var(--gray-800);">
+        ⚠️ <strong>Dikkat:</strong> Gübre uygulamalarında mutlaka toprak analizi yaptırın. Aşırı gübreleme tuzlanmaya ve kök yanıklığına yol açar. Gübreleri her zaman sulama öncesi veya yağmur sonrasında uygulayın.
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<!-- NEWS PAGE -->
+<div id="page-news" class="page">
+  <div class="section">
+    <div class="section-label">Bitki Gündemi</div>
+    <h1 class="section-title">Tarım dünyasından<br>son haberler</h1>
+    <p class="section-sub">Teknoloji, sürdürülebilirlik ve yenilikçi üretim yöntemleri hakkında güncel haberler.</p>
+
+    <div class="news-featured">
+      <div>
+        <span class="news-featured-badge">🔥 Öne Çıkan</span>
+        <h2>Türkiye'de dikey çiftlikler yükselişte: 2026 hedefleri</h2>
+        <p>Kapalı alan tarımı teknolojileri, su tüketimini %90 azaltırken verim başına metrekareyi 10 kata çıkarıyor. İstanbul ve Ankara'da açılan yeni dikey çiftlikler gıda arzında dönüşümü hızlandırıyor.</p>
+        <div class="news-featured-meta">📅 28 Nisan 2026 · 5 dk okuma</div>
+      </div>
+      <div class="news-img">🌿</div>
+    </div>
+
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-card-img">💧</div>
+        <div class="news-card-body">
+          <div class="news-cat">Teknoloji</div>
+          <h3>Toprak nem sensörleri artık köylüde</h3>
+          <p>Düşük maliyetli IoT sensörleri sayesinde küçük ölçekli çiftçiler de akıllı sulama sistemlerine kavuşuyor.</p>
+          <div class="news-date">📅 25 Nisan 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🌾</div>
+        <div class="news-card-body">
+          <div class="news-cat">Sürdürülebilirlik</div>
+          <h3>AB'nin yeni tarım politikası Türk ihracatını etkiliyor</h3>
+          <p>Avrupa Birliği'nin çiftçiden çatala stratejisi pestisit kullanımını kısıtlıyor. Organik sertifikalı üreticiler avantaj elde ediyor.</p>
+          <div class="news-date">📅 22 Nisan 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🤖</div>
+        <div class="news-card-body">
+          <div class="news-cat">Yapay Zeka</div>
+          <h3>Drone'lar hastalığı 14 gün önce tespit ediyor</h3>
+          <p>Hiperspektral görüntüleme yapay zekası ile birleşince bitki hastalıkları gözle görünmeden önce fark ediliyor.</p>
+          <div class="news-date">📅 19 Nisan 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🫘</div>
+        <div class="news-card-body">
+          <div class="news-cat">Araştırma</div>
+          <h3>CRISPR ile kuraklığa dayanıklı fasulye geliştirildi</h3>
+          <p>Türk üniversiteleri ve TAGEM ortaklığında geliştirilen yeni fasulye çeşidi %40 daha az su ile aynı verimi veriyor.</p>
+          <div class="news-date">📅 16 Nisan 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">☀️</div>
+        <div class="news-card-body">
+          <div class="news-cat">Yenilenebilir Enerji</div>
+          <h3>Agrivoltaik sistemler güneş + tarımı birleştiriyor</h3>
+          <p>Güneş panelleri altında yetiştirilen bitkiler hem enerji hem de gıda üretimini aynı arazi üzerinde mümkün kılıyor.</p>
+          <div class="news-date">📅 13 Nisan 2026</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🌡</div>
+        <div class="news-card-body">
+          <div class="news-cat">İklim</div>
+          <h3>2026 yaz sezonu çiftçiler için kritik uyarılar</h3>
+          <p>Meteoroloji ve Tarım Bakanlığı ortaklığıyla hazırlanan rapor erken sulama önlemlerini ve dayanıklı çeşitleri öneriyor.</p>
+          <div class="news-date">📅 10 Nisan 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><strong>Yeşil.</strong> — Akıllı ve sürdürülebilir tarım platformu.</footer>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const weatherData = {
+  sunny: {
+    icon: '☀️', title: 'Güneşli Gün', sub: 'Sıcak ve kurak hava koşulları • Yüksek buharlaşma',
+    temp: '28°C', hum: '35%', evap: 'Yüksek', irr: 'Gerekli',
+    recs: [
+      { icon: '💧', h: 'Sabah erken sulayın', p: 'Saat 06:00–09:00 arasında yapılan sulama buharlaşmayı en aza indirir. Öğle vakti sulama yapmaktan kaçının.' },
+      { icon: '🌱', h: 'Sebzeleri günde 1–2 kez sulayın', p: '30°C üzerinde toprak çok çabuk kurur. Domates ve biber gibi meyve sebzelere ekstra dikkat edin.' },
+      { icon: '🌾', h: 'Malçlama yapın', p: 'Toprak yüzeyine 5–8 cm saman veya ahşap talaşı sermek nem tutmayı %40\'a kadar artırır.' }
+    ]
+  },
+  cloudy: {
+    icon: '⛅', title: 'Bulutlu Hava', sub: 'Orta düzey ışık • Düşük buharlaşma',
+    temp: '18°C', hum: '60%', evap: 'Düşük', irr: 'Azaltın',
+    recs: [
+      { icon: '💧', h: 'Sulama sıklığını azaltın', p: 'Bulutlu günlerde toprak nemi daha yavaş düşer. Sulama öncesi parmak testi yapın.' },
+      { icon: '🌱', h: 'Havalandırmaya dikkat edin', p: 'Kapalı havada nem yükselerek fungal hastalık riskini artırır. Bitki arasındaki hava sirkülasyonunu artırın.' },
+      { icon: '📅', h: 'Gübre uygulaması için ideal zaman', p: 'Güneşsiz günler foliar (yapraktan) gübre uygulaması için mükemmeldir. Yüksek ışıkta yaprak yanıkları oluşabilir.' }
+    ]
+  },
+  rainy: {
+    icon: '🌧', title: 'Yağmurlu Gün', sub: 'Yüksek nem • Sulama gerekmiyor',
+    temp: '14°C', hum: '85%', evap: 'Çok Düşük', irr: 'Gerek Yok',
+    recs: [
+      { icon: '🚫', h: 'Sulama yapmayın', p: 'Yağmur zaten toprağı yeterince suladı. Aşırı sulama kök çürümesine ve besin yıkanmasına yol açar.' },
+      { icon: '🍄', h: 'Mantari hastalıklara dikkat', p: 'Yüksek nem mildiyö ve külleme riskini artırır. Yapraklar ıslanmışsa ve hava kapalıysa koruyucu ilaçlama yapın.' },
+      { icon: '🪣', h: 'Yağmur suyunu biriktirin', p: 'Çatı yönlendirme sistemi ve toplama tankıyla değerli yağmur suyunu sulama için depolayın.' }
+    ]
+  },
+  windy: {
+    icon: '💨', title: 'Rüzgarlı Hava', sub: 'Yüksek buharlaşma • Mekanik stres',
+    temp: '22°C', hum: '45%', evap: 'Yüksek', irr: 'Artırın',
+    recs: [
+      { icon: '💧', h: 'Sulama ihtiyacı artar', p: 'Rüzgar transpirasyonu hızlandırır, toprak çabuk kurur. Sabah ve akşam olmak üzere iki kez sulama düşünün.' },
+      { icon: '🛡', h: 'Rüzgar perdesi kurun', p: 'Ağ veya çit ile rüzgar bariyeri oluşturun. Özellikle genç bitkiler mekanik hasara karşı korunmalıdır.' },
+      { icon: '⚠️', h: 'Sprinkler değil damlama kullanın', p: 'Rüzgarda sprinkler suyu sürüklenir, etkinliği düşer. Damlama sistemi rüzgardan etkilenmez.' }
+    ]
+  },
+  hot: {
+    icon: '🌡', title: 'Sıcak Dalga', sub: '35°C+ sıcaklık • Kritik dönem',
+    temp: '38°C', hum: '25%', evap: 'Çok Yüksek', irr: 'Acil',
+    recs: [
+      { icon: '🚨', h: 'Acil sulama yapın', p: '38°C üzerinde bitkiler 2–3 saat içinde sıcaklık stresine girer. Hemen sulayın ve gerekirse gün içinde tekrarlayın.' },
+      { icon: '⛱', h: 'Gölgeleme ağı kullanın', p: '%30–50 gölgeleme oranındaki ağlar sıcaklığı 5–8°C düşürerek bitki stresini önemli ölçüde azaltır.' },
+      { icon: '🌿', h: 'Gübreleme yapmayın', p: 'Sıcak dalgada gübre uygulaması kök yanıkları oluşturur. Hava serinleyene kadar bekleyin.' }
+    ]
+  }
+};
+
+function setWeather(btn, type) {
+  document.querySelectorAll('.wtoggle').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = weatherData[type];
+  document.getElementById('w-icon').textContent = d.icon;
+  document.getElementById('w-title').textContent = d.title;
+  document.getElementById('w-sub').textContent = d.sub;
+  document.getElementById('w-temp').textContent = d.temp;
+  document.getElementById('w-hum').textContent = d.hum;
+  document.getElementById('w-evap').textContent = d.evap;
+  document.getElementById('w-irr').textContent = d.irr;
+  const recs = document.getElementById('w-recs');
+  recs.innerHTML = d.recs.map(r => `
+    <div class="irr-rec">
+      <div class="irr-rec-icon">${r.icon}</div>
+      <div class="irr-rec-text"><h4>${r.h}</h4><p>${r.p}</p></div>
+    </div>`).join('');
+}
+
+function switchTab(btn, id) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.fertilizer-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
